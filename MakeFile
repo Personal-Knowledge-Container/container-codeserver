@@ -1,0 +1,16 @@
+CURRENT_TIME = $(shell date +'%y.%m.%d %H:%M:%S')
+CURRENT_TAG = "v0.2"
+CURRENT_BUILD = "emhavis/pkc_codeserver"
+
+buildMulti:
+docker build -t emhavis/pkc_codeserver:v0.2-amd64 .
+docker build -t emhavis/pkc_codeserver:v0.2-arm64v8 --build-arg ARCH=arm64v8- .
+docker manifest create \
+emhavis/pkc_codeserver:v0.2 \
+--amend emhavis/pkc_codeserver:v0.2-amd64 \
+--amend emhavis/pkc_codeserver:v0.2-arm64v8 
+docker manifest push emhavis/pkc_codeserver:v0.2
+
+
+# docker build -t emhavis/pkc_semanticwiki:v1.37.1.build.2 --build-arg BUILD_SMW=true .
+# 
